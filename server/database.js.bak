@@ -1,0 +1,52 @@
+const {MongoClient} = require('mongodb');
+
+const username = "wonderboi";
+const passwd = "a12345678b";
+const database = "wrecipe";
+const collection = "recipes";
+
+async function main() {
+    // const uri = `mongodb+srv://${username}:${passwd}@wapp-sg.qbs2k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+    const uri = `mongodb+srv://wonderBOi:a12345678b@wapp-sg.qbs2k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try {
+        await client.connect();
+        // await listDatabases(client);
+        await searchRecipe(client, 'v');
+    } catch(e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+main().catch(console.error);
+
+async function listDatabases(client) {
+    databasesList = await client.db().admin().listDatabases();
+
+    console.log("Databases:");
+    // databasesList.databases.array.forEach(db => {
+    //     console.log(` - ${db.name}`);
+    // });
+    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+};
+
+async function searchRecipe(client, search) {
+    const cursor = client.db(database).collection(collection);
+
+    const params = {
+        'title': {
+          '$regex': search,
+          '$options': 'i',  // [?] case insensitive
+        }
+    };
+
+    const query = cursor.find(params).sort({"title": 1});
+
+    while(await query.hasNext()) {
+        const recipe = await query.next();
+        console.log(recipe);
+    }
+}
