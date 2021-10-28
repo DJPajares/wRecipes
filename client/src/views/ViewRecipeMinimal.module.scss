@@ -1,0 +1,76 @@
+.wrapper {
+    position: relative;
+    border-radius: 10px;
+    // box-shadow: 0px 5px 20px rgb(71, 71, 71);
+    border: 1px solid rgb(102, 102, 102);
+    // background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+    // background-blend-mode: normal,color-burn;
+    // margin: 20px 0;
+    margin: 30px 10px 0 10px;
+    display: flex;
+    width: 200px;
+    height: 200px;
+    flex-direction: column;
+
+    /* [BODY] */
+    .wrapper-body {
+        // position: relative;
+        // padding: 10px;
+        /* justify-content: space-around; */
+
+        /* Image */
+        .wrapper-image {
+            position: relative;
+            height: 100%;
+
+            .image {
+                position: absolute;
+                height: auto;
+
+                border-radius: 10px;
+                width: 100%;
+                // height: 100%;
+                // padding: 0;
+                // margin: 0;
+                object-fit: cover;
+            }
+        }
+
+        .wrapper-dark-fading {
+            position: absolute;
+            // background-color: rgba($color: #686868c5, $alpha: 1.0);
+            // background: linear-gradient(to bottom, rgba(32, 32, 32, 0) 0%, rgba(0,0,0,0.8) 70%); 
+            // background: linear-gradient(0deg, rgba(0,0,0,0.8883928571428571) 0%, rgba(0,0,0,0.6502976190476191) 42%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(0deg, rgba(0,0,0,0.8883928571428571) 0%, rgba(0,0,0,0.5942752100840336) 39%, rgba(0,0,0,0.3309698879551821) 69%, rgba(0,0,0,0) 100%);
+            bottom: 0;
+            // right: 0;
+            width: 100%;
+            border-radius: 0 0 10px 10px;
+
+            .subTitle {
+                // position: absolute;
+                font-size: 13px;
+                font-weight: 600;
+                color: white;
+                bottom: 0;
+                // right: 0;
+                padding: 0 10px;
+            }
+        }
+    }
+}
+
+/* [FOOTER] */
+.wrapper-footer {
+    width: 200px;
+    margin: 0 15px;
+
+    /* Title */
+    .title {
+        // position: absolute;
+        font-size: 14px;
+        font-weight: bold;
+        // margin: 0 10px;
+    }
+
+}
