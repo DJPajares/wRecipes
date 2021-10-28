@@ -30,12 +30,13 @@ app.use(bodyParser.json({limit: '15mb', extended: true}));
         app.post('/upload',(req, res) => {
             // To upload multiple images it would be upload.array() and req.files and also you would have the change the type of the image within the schema from Object to Array since the result will be a list of images.
             const recipe = new recipes(
-                { 
-                    title: req.body.title, 
-                    image: req.body.image, 
-                    duration: req.body.duration, 
-                    steps: req.body.steps, 
-                    rating: req.body.rating 
+                {
+                    title: req.body.title,
+                    description: req.body.description,
+                    ingredients: req.body.ingredients,
+                    directions: req.body.directions,
+                    duration: req.body.duration,
+                    servings: req.body.servings
                 }
             );        
             recipe.save((err, recipes) => {
@@ -64,10 +65,10 @@ app.use(bodyParser.json({limit: '15mb', extended: true}));
 
         // > Recipes - Search
         app.get('/api/search', (req, res) => {
-            // URL: "../api/search?val=<search_parameters>"
+            // URL: "../api/search?q=<search_parameters>"
 
             // Variables
-            var search = req.query['val'];
+            var search = req.query['q'];
             // Options
             var opts = {
                 'title': {

@@ -17,16 +17,18 @@ const connect = mongoose.connection;
 // DB Structure
 let dbSchema = new mongoose.Schema({
     title: String,
+    description: String,
     image: String,
-    ingredients: {
+    ingredients: [{
         name: String,
         amount: {
             quantity: Number,
             unit: String
         }
-    },
+    }],
     directions: [String],
-    duration: Number
+    duration: Number,
+    servings: Number
 });
 
 // Collection
