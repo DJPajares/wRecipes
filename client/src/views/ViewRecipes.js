@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './ViewRecipe.module.scss';
+import styles from './ViewRecipes.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -25,12 +25,12 @@ const ViewRecipe = (
             var rhrs = Math.floor(hrs);
             var mins = (hrs - rhrs) * 60;
             var rmins = Math.round(mins);
-            var hrs_txt = rhrs > 1 ? "hrs" : "hr";
-            var mins_txt = rmins > 1 ? "mins" : "mins";
+            var hrs_txt = rhrs == 1 ? "hr" : "hrs";
+            var mins_txt = rmins == 1 ? "min" : "mins";
 
             return rhrs + hrs_txt + ' ' + rmins + mins_txt;
         } else {
-            return time > 1 ? "mins" : "mins";
+            return time == 1 ? `${time}min` : `${time}mins`;
         }
     }
 

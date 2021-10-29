@@ -1,9 +1,9 @@
 import React from 'react';
 // import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
-// import AddRecipe from '../AddRecipe/AddRecipe';
+// import RecipeAdd from '../RecipeAdd/RecipeAdd';
 import { Link } from 'react-router-dom';
 import styles from './Saved.module.scss';
-import ViewRecipeMinimal from "../../../views/ViewRecipeMinimal"
+import ViewRecipeMinimal from "../../../views/ViewRecipesMinimal"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -40,7 +40,7 @@ const Saved = () => {
         <div className={styles["wrapper-main"]}>
             <div>
                 <button className={styles["btn-add"]}>
-                    <Link to="/add-recipe" className={styles["btn-text"]}><FontAwesomeIcon icon={ faPlus }/> ADD</Link>
+                    <Link to="/recipe-add" className={styles["btn-text"]}><FontAwesomeIcon icon={ faPlus }/> ADD</Link>
                 </button>
                 <form className={styles["search-form"]} onSubmit={getSearch}>
                     <input 
@@ -58,10 +58,10 @@ const Saved = () => {
             <div className={styles["recipes"]}>
                 {recipes.map((recipe, index) =>(
                     <ViewRecipeMinimal 
-                        key={index}
+                        id={recipe._id}
                         title={recipe.title}
                         description={recipe.description}
-                        // image={recipe.image}
+                        image={recipe.image}
                         // calories={recipe.calories}
                         // cuisineType={recipe.cuisineType.join(", ")}
                         // dishType={recipe.dishType.join(", ")}

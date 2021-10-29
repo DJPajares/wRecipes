@@ -5,8 +5,12 @@
     width: 100%;
     text-align: center;
     // margin: 0px auto;
+    position: relative;
 
     .btn-back {
+        position: absolute;
+        top: 0;
+        left: 0;
         height: 36px;
         width: 250px;
         // color: #fff;
@@ -39,8 +43,11 @@
     }
 
     .btn-save {
+        position: absolute;
+        // top: 0;
+        right: 0;
         height: 36px;
-        width: 200px;
+        width: 130px;
         color: #fff;
         text-align: center;
         padding: 5px 15px;
@@ -53,10 +60,11 @@
 }
 
 .wrapper-body {
+    position: relative;
     max-width: 540px;
     width: 100%;
     margin: 0px auto;
-    padding: 10px;
+    padding: 80px;
     // padding: 8px 16px 20px;
 
     .wrapper-generic {

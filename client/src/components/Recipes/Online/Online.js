@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Online.module.scss';
-import ViewRecipe from "../../../views/ViewRecipe"
+import ViewRecipe from "../../../views/ViewRecipes"
+// import ViewRecipe from "../../../views/ViewRecipesMinimal"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 // import { addListener } from 'nodemon';
@@ -12,7 +13,7 @@ const Online = () => {
     const[recipes, setRecipes] = React.useState([]);
     const[search, setSearch] = React.useState("");
     // const[query, setQuery] = React.useState('Vegan');
-    const[query, setQuery] = React.useState(null);
+    const[query, setQuery] = React.useState("Vegan");
 
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}`;  // ALL
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan&health=vegetarian`;  // Vegan/Vegetarian

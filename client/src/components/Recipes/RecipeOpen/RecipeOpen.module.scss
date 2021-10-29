@@ -1,0 +1,184 @@
+// .wrapper {
+    // display: flex;
+    // position: relative;
+
+    .wrapper-main {
+        position: relative;
+        width: 100%;
+        text-align: center;
+        // display: flex;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        // margin: 0px auto;
+    
+        .btn-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 36px;
+            width: 250px;
+            text-align: center;
+            padding: 5px 15px;
+            margin: 20px;
+            border-radius: 30px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 25px;
+    
+            .btn-text {
+                text-decoration: none;
+                color: rgb(49, 49, 49);
+        
+                &:hover {
+                    color: rgb(221, 221, 221);
+                }
+        
+                &:active { 
+                    color: rgb(179, 179, 179);
+                    cursor: pointer;
+                    position: relative;
+                    top: 2px;
+                }
+            }
+        }
+    
+        .btn-edit {
+            position: absolute;
+            // top: 0;
+            right: 0;
+            height: 36px;
+            width: 130px;
+            color: #fff;
+            text-align: center;
+            padding: 5px 15px;
+            margin: 20px;
+            border-radius: 30px;
+            border: 1px solid rgb(204, 48, 0);
+            background: rgb(204, 48, 0);
+            cursor: pointer;
+        }
+    }
+    
+    .wrapper-sub {
+        position: relative;
+        border-radius: 10px;
+        border: 1px solid rgb(102, 102, 102);
+        background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+        background-blend-mode: normal,color-burn;
+        margin: 20px;
+        display: flex;
+        width: 40%;
+        flex-direction: column;
+        min-width: 40%;
+    
+        /* [HEADER] */
+        .wrapper-header {
+    
+            /* Image */
+            .image {
+                border-radius: 10px 10px 0 0;
+                width: 100%;
+                height: 200px;
+                padding: 0;
+                margin: 0;
+                object-fit: cover;
+            }
+    
+            /* Button */
+            .btn-add {
+                position: absolute;
+                right:0;
+                top: 0;
+                margin: 10px;
+                font-size: 20px;
+                display: block;
+                color:#ffffff;
+                background:rgb(204, 48, 0);
+                border: 0px solid #ffffff;
+                text-shadow: 0px -1px 1px #222222;
+                box-shadow: 2px 2px 5px #000000;
+                -moz-box-shadow: 2px 2px 5px #000000;
+                -webkit-box-shadow: 2px 2px 5px #000000;
+                border-radius: 50px 50px 50px 50px;
+                -moz-border-radius: 50px 50px 50px 50px;
+                -webkit-border-radius: 50px 50px 50px 50px;
+                width: 40px;
+                height: 40px;
+                text-align: center;
+                cursor: pointer;
+                justify-content: center;
+    
+                &:active { 
+                    cursor: pointer;
+                    top: 2px;
+                }
+            }
+        }
+    
+        /* [BODY] */
+        .wrapper-body {
+            position: relative;
+            padding: 10px;
+    
+            /* Title */
+            h1 {
+                font-size: 20px;
+                margin: 0;
+            }
+    
+            .subtitle {
+                font-size: 14px;
+                font-style: italic;
+                text-transform: capitalize;
+                padding: 0px;
+                margin: 0px;
+                text-align: center;
+            }
+    
+            .description {
+                font-size: 14px;
+                font-style: italic;
+                text-indent: 2em;
+                text-align: justify;
+                padding: 5px;
+            }
+    
+            .wrapper-list {
+                margin: 0;
+                padding: 20px 0 0 0;
+    
+                p {
+                    font-size: 15px;
+                    font-weight: bold;
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                .items {
+                    margin: 5px;
+                }
+    
+                li {
+                    font-size: 12px;
+                    margin-top: 0;
+                    text-align: justify;
+                }
+            }
+        }
+    
+        /* [FOOTER] */
+        .wrapper-footer {
+            /* position: relative; */
+            padding: 10px;
+    
+            .footer {
+                font-size: 13px;
+                position: absolute;
+                right:0;
+                bottom: 0;
+                padding: 0 10px 0 0;
+            }
+        }
+    }
+// }

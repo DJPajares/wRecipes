@@ -1,10 +1,12 @@
 import React from "react";
-import styles from './ViewRecipeMinimal.module.scss';
+import { Link } from 'react-router-dom';
+import styles from './ViewRecipesMinimal.module.scss';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const ViewRecipeMinimal = (
     {
+        key,
         title,
         description,
         image,
@@ -24,24 +26,28 @@ const ViewRecipeMinimal = (
             var rhrs = Math.floor(hrs);
             var mins = (hrs - rhrs) * 60;
             var rmins = Math.round(mins);
-            var hrs_txt = rhrs > 1 ? "hrs" : "hr";
-            var mins_txt = rmins > 1 ? "mins" : "mins";
+            var hrs_txt = rhrs == 1 ? "hr" : "hrs";
+            var mins_txt = rmins == 1 ? "min" : "mins";
 
 
             return rhrs + hrs_txt + ' ' + rmins + mins_txt;
         } else {
-            return time > 1 ? `${time}mins` : `${time}min`;
+            return time == 1 ? `${time}min` : `${time}mins`;
         }
     }
 
     return (
         // <div className="wrapper">
-        <div>
-            <div className={styles["wrapper"]}>
+        <Link
+            key = {key}
+            // to={{ pathname: `/${key}`, singleRecipe: `${JSON.stringify(recipe)}` }}
+            // to={{ pathname: `/${key}` }}
+            to='/recipe-add'
+            style={{ textDecoration: 'none' }}
+        >
+            <div>
                 <div className={styles["wrapper-body"]}>
-                    <div className={styles["wrapper-image"]}>
-                        <img className={styles["image"]} src={image} alt=""></img>
-                    </div>
+                    <img className={styles["image"]} src={image} alt=""></img>
 
                     <div className={styles["wrapper-dark-fading"]}>
                         { duration === undefined ? null :
@@ -49,13 +55,13 @@ const ViewRecipeMinimal = (
                         }
                     </div>
                 </div>
+                <div className={styles["wrapper-footer"]}>
+                    { title === undefined ? null :
+                        <p className={styles["title"]}>{title}</p>
+                    }
+                </div>
             </div>
-            <div className={styles["wrapper-footer"]}>
-                { title === undefined ? null :
-                    <p className={styles["title"]}>{title}</p>
-                }
-            </div>
-        </div>
+        </Link>
     );
 };
 

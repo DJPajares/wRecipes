@@ -14,7 +14,7 @@ const NavbarRecipes = () => {
                         <Link to="/online">Online</Link>
                     </li>
                     {/* <li>
-                        <Link to="/add-recipe">Add Recipe</Link>
+                        <Link to="/recipe-add">Add Recipe</Link>
                     </li> */}
                 </ul>
             </div>

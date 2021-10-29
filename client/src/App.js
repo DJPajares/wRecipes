@@ -8,7 +8,7 @@ import Shopping from './components/Shopping/Shopping';
 
 // import Saved from './components/Recipes/Saved/Saved';
 // import Online from './components/Recipes/Online/Online';
-// import AddRecipe from './components/Recipes/AddRecipe/AddRecipe';
+// import RecipeAdd from './components/Recipes/RecipeAdd/RecipeAdd';
 
 const App = () =>  {
   return (
@@ -22,7 +22,7 @@ const App = () =>  {
           <Route path = '/shopping' component = { Shopping } />
 
           {/* <Route path = '/recipes/saved' component = { Saved } />
-          <Route path = '/recipes/addrecipe' component = { AddRecipe } />
+          <Route path = '/recipes/addrecipe' component = { RecipeAdd } />
           <Route path = '/recipes/online' component = { Online } /> */}
         </Switch>
       </React.Fragment>

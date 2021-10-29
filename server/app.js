@@ -3,9 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
 
-// [POST REQUESTS HANDLER]
-app.use(express.json());
-
 // [IMPORT DATABASE]
 const { connect } = require('./db');
 // [IMPORT MODEL/COLLECTION]
@@ -20,33 +17,70 @@ connect.once('open', () => {
 // [MIDDLEWARES]
 app.use(bodyParser.urlencoded({
     limit: '15mb',
-    extended: true
+    extended: true,
+    parameterLimit: true
 }));
 app.use(bodyParser.json({limit: '15mb', extended: true}));
+
+// [POST REQUESTS HANDLER]
+// *** IMPORTANT: Put after bodyParser, otherwise, it would set the global limit to 1mb
+app.use(express.json());
 
 // [API - MONGOOSE]
     // >> POST
         // > Recipes
-        app.post('/upload',(req, res) => {
-            // To upload multiple images it would be upload.array() and req.files and also you would have the change the type of the image within the schema from Object to Array since the result will be a list of images.
+        app.post('/upload', (req, res) => {
             const recipe = new recipes(
                 {
                     title: req.body.title,
                     description: req.body.description,
+                    image: req.body.image,
                     ingredients: req.body.ingredients,
                     directions: req.body.directions,
                     duration: req.body.duration,
                     servings: req.body.servings
                 }
-            );        
-            recipe.save((err, recipes) => {
+            );
+
+            recipe.save(function (err, results) {
                 if(err) {
                     console.log(err);
                 } else {
                     console.log('New recipe successfully added...');
-                }         
-            });
+                    console.log(results._id);
+                    res.send('id: ' + results._id);
+                }
+            });     
         });
+
+        // app.post('/upload',(req, res) => {
+        //     const recipe = new recipes(
+        //         {
+        //             title: req.body.title,
+        //             description: req.body.description,
+        //             ingredients: req.body.ingredients,
+        //             directions: req.body.directions,
+        //             duration: req.body.duration,
+        //             servings: req.body.servings
+        //         }
+        //     );
+            
+        //     recipe.save(function (err, results) {
+        //         if(err) {
+        //             console.log(err);
+        //         } else {
+        //             console.log('New recipe successfully added...');
+        //             console.log(results._id);
+        //         }
+        //     });      
+        //     // recipe.save((err, recipes) => {
+        //     //     if(err) {
+        //     //         console.log(err);
+        //     //     } else {
+        //     //         console.log('New recipe successfully added...');
+        //     //     }
+        //     // });
+        // });
 
     // >> GET
         // > Recipes - All
