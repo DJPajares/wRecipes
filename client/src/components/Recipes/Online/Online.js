@@ -13,11 +13,12 @@ const Online = () => {
     const[recipes, setRecipes] = React.useState([]);
     const[search, setSearch] = React.useState("");
     // const[query, setQuery] = React.useState('Vegan');
-    const[query, setQuery] = React.useState("Vegan");
+    const[query, setQuery] = React.useState("Burger");
 
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}`;  // ALL
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan&health=vegetarian`;  // Vegan/Vegetarian
-    const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan`;  // Vegan
+    // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan`;  // Vegan
+    const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan`;   // Vegan
 
     React.useEffect(() => {
         getRecipes();

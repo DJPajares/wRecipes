@@ -25,9 +25,6 @@ const Navbar = () => {
                     </li>
                 </ul>
             </div>
-            {/* <div class="right">
-                <a href="#">Welcome</a>
-            </div> */}
         </div>
     );
 }

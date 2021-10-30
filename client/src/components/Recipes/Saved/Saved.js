@@ -43,7 +43,7 @@ const Saved = () => {
                     <Link to="/recipe-add" className={styles["btn-text"]}><FontAwesomeIcon icon={ faPlus }/> ADD</Link>
                 </button>
                 <form className={styles["search-form"]} onSubmit={getSearch}>
-                    <input 
+                    <input
                         type="text" 
                         className={styles["search-bar"]}
                         placeholder="e.g. Vegan"
@@ -57,7 +57,7 @@ const Saved = () => {
             </div>
             <div className={styles["recipes"]}>
                 {recipes.map((recipe, index) =>(
-                    <ViewRecipeMinimal 
+                    <ViewRecipeMinimal
                         id={recipe._id}
                         title={recipe.title}
                         description={recipe.description}

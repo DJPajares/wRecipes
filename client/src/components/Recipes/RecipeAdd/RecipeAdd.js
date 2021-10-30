@@ -2,24 +2,98 @@ import React, { Component } from 'react';
 import styles from './RecipeAdd.module.scss';
 // import ViewRecipeMinimal from "../../../views/ViewRecipeMinimal"
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
+// import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 // import { faSave } from '@fortawesome/free-solid-svg-icons';
 
+const MySwal = withReactContent(Swal);
+
 export default class RecipeAdd extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+        // Pre-processing
+        if(props.location.singleRecipe) { 
+            var singleRecipe = JSON.parse(props.location.singleRecipe);
+
+            if(singleRecipe.status === 1) {
+                // >> UPDATE
+
+                // Buttons
+                    var btnText = "UPDATE";
+                // Ingredients
+                    if(singleRecipe.ingredients === null || singleRecipe.ingredients === undefined) {
+                        var ingredients = [];
+                        var ingredientsTxt = '';
+                    } else {
+                        var ingredientsTxtTmp = [];
+                        singleRecipe.ingredients.forEach(function(row) {
+                            ingredientsTxtTmp.push(
+                                row.name_full
+                            );
+                        });
+                        var ingredientsTxt = ingredientsTxtTmp.join("\n");
+                        var ingredients = singleRecipe.ingredients;
+                    }
+                // Directions
+                    var directions = singleRecipe.directions === null || singleRecipe.directions === undefined ? null : singleRecipe.directions.join("\n");
+            } else if(singleRecipe.status === 2) {
+                // >> UPDATE - ONLINE
+
+                // Buttons
+                    var btnText = "SAVE";
+                // Ingredients
+                    if(singleRecipe.ingredients === null || singleRecipe.ingredients === undefined) {
+                        var ingredients = [];
+                        var ingredientsTxt = '';
+                    } else {
+                        var ingredientsTxtTmp = [];
+                        singleRecipe.ingredients.forEach(function(row) {
+                            ingredientsTxtTmp.push(
+                                row.name_full
+                            );
+                        });
+                        var ingredientsTxt = ingredientsTxtTmp.join("\n");
+                        var ingredients = singleRecipe.ingredients;
+                    }
+                // Directions
+                    var directions = singleRecipe.directions === null || singleRecipe.directions === undefined ? null : singleRecipe.directions.join("\n");
+            }
+        } else {
+            // >> NEW
+
+            // Buttons
+                var btnText = "SAVE";
+            // Ingredients
+                var ingredients = [];
+                var ingredientsTxt = [];
+            // Directions
+                var directions = [];
+        }
+
+        // States
         this.state = {
             src: '',    // image source
-            title: null,
-            description: null,
-            ingredients: [],
-            directions: [],
-            duration: null,
-            servings: null
+            image : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.image,
+            id : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.id,
+            title : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.title,
+            description : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.description,
+            ingredientsTxt : ingredientsTxt,
+            ingredients : ingredients,
+            directions : singleRecipe === null || singleRecipe === undefined ? null : directions,
+            duration : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.duration,
+            servings : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.servings,
+            // singleRecipe : singleRecipe,
+            btnText : btnText,
+            status : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.status
         };
+
         this.getData = this.getData.bind(this);
+
+        console.log(this.state)
     }
 
     // On element value change, save its state
@@ -34,6 +108,7 @@ export default class RecipeAdd extends Component {
         // Set Image
             let file = document.getElementById('form-image').files[0];
             if(file) {
+                // If there is a file
                 let reader = new FileReader();
                 reader.onload = ((theFile) => {
                     return (e) => {
@@ -42,10 +117,14 @@ export default class RecipeAdd extends Component {
                     };
                 })(file);
                 reader.readAsDataURL(file);
-                // console.log(this.state.src);
             } else {
-                // If no image, use placeholder
-                this.setState({src: "https://via.placeholder.com/150x150"});
+                if(this.state.image === undefined || this.state.image === null || this.state.image === '') {
+                    // If no file or not in state
+                    this.setState({src: "https://via.placeholder.com/300x300?text=No+Image+Available"});
+                } else {
+                    // If no file but in state
+                    this.setState({ src: this.state.image});
+                }
             }
     }
 
@@ -54,55 +133,123 @@ export default class RecipeAdd extends Component {
         // Prevent enter behaviour
             e.preventDefault();
 
-        // Data cleanup
-            // Ingredients
-                var tmpIngredients = {
-                    "name" : this.state.ingredients,
-                    "name_full" : this.state.ingredients
-                };
-            // Final
-                let data = JSON.stringify({
-                    title: this.state.title,
-                    description: this.state.description,
-                    image: this.state.src,
-                    ingredients: [tmpIngredients],
-                    directions: this.state.directions.length > 0 ? this.state.directions.split("\n") : null,  // Convert each line to array
-                    duration: parseInt(this.state.duration),
-                    servings: parseInt(this.state.servings)
-                });
+            MySwal.fire({
+                // title: 'Delete!',
+                text: 'Are you sure you want to upload this recipe?',
+                // icon: 'warning',
+                focusConfirm: true,
+                showDenyButton: true,
+                showCloseButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No'
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    postRecipe();
 
-                console.log(data)
+                    MySwal.fire(
+                        {
+                            text: 'Recipe uploaded',
+                            icon: 'success',
+                            confirmButtonText: 'Ok',
+                        }
+                    ).then(() => {
+                        // history.push("/saved");
+                        this.props.history.push("/saved");
+                    });
+                } else {
+                    // // return MySwal.fire(<p>Nothing s deleted</p>)
+                    // return MySwal.fire(
+                    //     {
+                    //         text: 'Aborted',
+                    //         icon: 'error',
+                    //         confirmButtonText: 'Ok',
+                    //     }
+                    // )
+                }
+            });
 
-        // // Reset fields from state
-        //     this.setState({
-        //         src: '',
-        //         title: null,
-        //         description: null,
-        //         ingredients: [],
-        //         directions: [],
-        //         duration: null,
-        //         servings: null
-        //     });
+            const postRecipe = () => {
+                // Data cleanup
+                    // Ingredients
+                        if(this.state.ingredients === undefined || this.state.ingredients === null) {
+                        // if(this.state.ingredients.length > 0) {
+                            console.log(this.state.ingredientsTxt);
+                            var ingredients = [];
+                            var tmpIngredients = this.state.ingredientsTxt.split("\n");
+    
+                            tmpIngredients.forEach(function(row) {
+                                // Separate quantity
+                                    if(row.indexOf("[") >= 0 && row.indexOf("]") >= 0) {
+                                        // Bracketed (e.g. [1 cup] rice)
+                                        var x = row.indexOf("[") + 1;
+                                        var y = row.indexOf("]");
+                                        var xY = row.substring(x, y)
+                                        var quantityTmp = xY.match(/\d+/);
+                                        var quantity = quantityTmp && quantityTmp !== null ? parseFloat(quantityTmp[0]) : 0;
+                                        var unit = xY.replace(/\d+/g, '').trim();
+                                    } else {
+                                        // No Brackets (e.g. 1 cup rice)
+                                        var quantityTmp = row.match(/\d+/);
+                                        var quantity = quantityTmp && quantityTmp !== null ? parseFloat(quantityTmp[0]) : 0;
+                                    }
+    
+                                // Push
+                                ingredients.push(
+                                    {
+                                        "name" : row,
+                                        "name_full" : row,
+                                        "amount" : {
+                                            "quantity" : quantity,
+                                            "unit" : unit
+                                        }
+                                    }
+                                )
+                            });
+                        } else {
+                            var ingredients = this.state.ingredients;
+                        }
 
-        // Options
-            var opts = {
-                method: 'POST',
-                // redirect: 'follow',
-                body: data,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/json;charset=UTF-8'
-                },
-            };
+                    // Final
+                        let data = JSON.stringify({
+                            status: this.state.status,
+                            id: this.state.id,
+                            title: this.state.title,
+                            description: this.state.description,
+                            image: this.state.src,
+                            ingredients: ingredients,
+                            directions: this.state.directions ? this.state.directions.split("\n") : null,  // Convert each line to array
+                            duration: parseInt(this.state.duration),
+                            servings: parseInt(this.state.servings)
+                        });
 
-        // Post
-            fetch(`/upload`, opts)
-                .then(res => res.json())
-                .then(data => console.log(data));
+                // // Reset fields from state
+                //     this.setState({
+                //         src: '',
+                //         title: null,
+                //         description: null,
+                //         ingredients: [],
+                //         directions: [],
+                //         duration: null,
+                //         servings: null
+                //     });
 
-        // // Alert
-        //     alert("Upload successful!");
+                // Options
+                    var opts = {
+                        method: 'POST',
+                        // redirect: 'follow',
+                        body: data,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                            // 'Content-Type': 'application/json;charset=UTF-8'
+                        },
+                    };
+
+                // Post
+                    fetch(`/upload`, opts)
+                        .then(res => res.json())
+                        .then(data => console.log(data));
+            }
     }
 
     render() {
@@ -114,7 +261,8 @@ export default class RecipeAdd extends Component {
                     </button>
                     <button className={styles["btn-save"]} onClick={this.onSubmit} onMouseEnter={this.getData}>
                         {/* <FontAwesomeIcon icon={ faSave }/> */}
-                        SAVE
+                        {/* SAVE */}
+                        {this.state.btnText}
                     </button>
                 </div>
                 {/* <form onSubmit={this.onSubmit}> */}
@@ -123,7 +271,7 @@ export default class RecipeAdd extends Component {
                         <div className={styles["wrapper-generic"]}>
                             <label>Title</label>
                             <div className={styles["text-box"]}>
-                                <input name="title" onChange={this.onChange} type="text" placeholder="What will you name this recipe?" />
+                                <input name="title" value={this.state.title} onChange={this.onChange} type="text" placeholder="What will you name this recipe?" />
                             </div>
                         </div>
                         <div className={styles["wrapper-img"]}>
@@ -138,33 +286,52 @@ export default class RecipeAdd extends Component {
                         <div className={styles["wrapper-generic"]}>
                             <label>Description</label>
                             <div className={styles["text-area"]}>
-                                <textarea name="description" onChange={this.onChange} type="text" placeholder="Tell us about this dish" />
+                                <textarea
+                                    name="description"
+                                    value={this.state.description}
+                                    onChange={this.onChange}
+                                    type="text"
+                                    placeholder="Tell us about this dish"
+                                />
                             </div>
                         </div>
                         <div className={styles["wrapper-generic"]}>
                             <label>Ingredients</label>
-                            <div className={styles["text-box"]}>
-                                <input name="ingredients" onChange={this.onChange} type="text" placeholder="List down the ingredients here" />
+                            <div className={styles["text-area"]}>
+                                <textarea
+                                    name="ingredients"
+                                    value={this.state.ingredientsTxt}
+                                    onChange={this.onChange}
+                                    type="text"
+                                    placeholder="Create new line for each item and enclose quantities in a bracket
+                                    e.g. [1 cup] rice"
+                                />
                             </div>
                         </div>
                         <div className={styles["wrapper-generic"]}>
                             <label>Directions</label>
                             <div className={styles["text-area"]}>
-                                <textarea name="directions" onChange={this.onChange} type="text" placeholder="Create new line for each instruction" />
+                                <textarea
+                                    name="directions"
+                                    value={this.state.directions}
+                                    onChange={this.onChange}
+                                    type="text"
+                                    placeholder="Create new line for each instruction"
+                                />
                             </div>
                         </div>
                         <div className={styles["wrapper-generic"]}>
                             <label>Duration</label>
                             <div className={styles["text-box"]}>
-                                <input name="duration" onChange={this.onChange} type="number" placeholder="in minutes" />
+                                <input name="duration" value={this.state.duration} onChange={this.onChange} type="number" placeholder="in minutes" />
                             </div>
                         </div>
-                        {/* <div className={styles["wrapper-generic"]}>
+                        <div className={styles["wrapper-generic"]}>
                             <label>Servings</label>
                             <div className={styles["text-box"]}>
-                                <input name="servings" onChange={this.onChange} type="number" placeholder="How many servings does this make?" />
+                                <input name="servings" value={this.state.servings} onChange={this.onChange} type="number" placeholder="How many servings does this make?" />
                             </div>
-                        </div> */}
+                        </div>
                     </div>
                 {/* </form> */}
             </div>

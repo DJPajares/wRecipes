@@ -1,15 +1,12 @@
-// .wrapper {
-    // display: flex;
+.wrapper {
+    display: contents;
     // position: relative;
+    // margin: 50px;
 
     .wrapper-main {
         position: relative;
-        width: 100%;
-        text-align: center;
-        // display: flex;
-        // flex-direction: row;
-        // flex-wrap: wrap;
-        // margin: 0px auto;
+        // width: 100%;
+        // text-align: center;
     
         .btn-back {
             position: absolute;
@@ -43,9 +40,9 @@
             }
         }
     
-        .btn-edit {
+        .btn-delete {
             position: absolute;
-            // top: 0;
+            top: 0;
             right: 0;
             height: 36px;
             width: 130px;
@@ -57,21 +54,35 @@
             border: 1px solid rgb(204, 48, 0);
             background: rgb(204, 48, 0);
             cursor: pointer;
+
+            &:hover {
+                color: rgb(221, 221, 221);
+            }
+
+            &:active { 
+                color: rgb(179, 179, 179);
+                cursor: pointer;
+                // position: relative;
+                // top: 2px;
+            }
         }
     }
-    
+
     .wrapper-sub {
         position: relative;
+        // display: inline-block;
         border-radius: 10px;
         border: 1px solid rgb(102, 102, 102);
         background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
         background-blend-mode: normal,color-burn;
-        margin: 20px;
-        display: flex;
+        overflow: hidden;
+        margin: 0 auto;
+        margin-top: 80px;
+        // display: flex;
         width: 40%;
-        flex-direction: column;
-        min-width: 40%;
-    
+        // flex-direction: column;
+        // min-width: 40%;
+
         /* [HEADER] */
         .wrapper-header {
     
@@ -86,7 +97,7 @@
             }
     
             /* Button */
-            .btn-add {
+            .btn-edit {
                 position: absolute;
                 right:0;
                 top: 0;
@@ -108,14 +119,28 @@
                 text-align: center;
                 cursor: pointer;
                 justify-content: center;
+                text-decoration: none;
     
-                &:active { 
-                    cursor: pointer;
-                    top: 2px;
+                &:hover {
+                    color: rgb(221, 221, 221);
+                    color:#000000;
                 }
+        
+                &:active { 
+                    color: rgb(179, 179, 179);
+                    color:#000000;
+                    cursor: pointer;
+                    // position: relative;
+                    // top: 2px;
+                }
+
+                // &:active { 
+                //     cursor: pointer;
+                //     top: 2px;
+                // }
             }
         }
-    
+
         /* [BODY] */
         .wrapper-body {
             position: relative;
@@ -145,7 +170,7 @@
             }
     
             .wrapper-list {
-                margin: 0;
+                margin: 20px 10px;
                 padding: 20px 0 0 0;
     
                 p {
@@ -166,19 +191,31 @@
                 }
             }
         }
-    
+
         /* [FOOTER] */
         .wrapper-footer {
             /* position: relative; */
             padding: 10px;
-    
-            .footer {
+
+            .footer-left {
                 font-size: 13px;
+                font-style: italic;
+                position: absolute;
+                left:0;
+                bottom: 0;
+                // padding: 0 10px 0 0;
+                margin: 10px;
+            }
+
+            .footer-right {
+                font-size: 13px;
+                font-style: italic;
                 position: absolute;
                 right:0;
                 bottom: 0;
-                padding: 0 10px 0 0;
+                // padding: 0 10px 0 0;
+                margin: 10px;
             }
         }
     }
-// }
+}

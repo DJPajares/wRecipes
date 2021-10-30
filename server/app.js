@@ -28,71 +28,82 @@ app.use(express.json());
 
 // [API - MONGOOSE]
     // >> POST
-        // > Recipes
+        // > Recipes - Save
         app.post('/upload', (req, res) => {
-            const recipe = new recipes(
-                {
-                    title: req.body.title,
-                    description: req.body.description,
-                    image: req.body.image,
-                    ingredients: req.body.ingredients,
-                    directions: req.body.directions,
-                    duration: req.body.duration,
-                    servings: req.body.servings
-                }
-            );
+            var objRecipe = {
+                title : req.body.title,
+                description : req.body.description,
+                image : req.body.image,
+                ingredients : req.body.ingredients,
+                directions : req.body.directions,
+                duration : req.body.duration,
+                servings : req.body.servings
+            };
 
-            recipe.save(function (err, results) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log('New recipe successfully added...');
-                    console.log(results._id);
-                    res.send('id: ' + results._id);
-                }
-            });     
+            const recipe = new recipes(objRecipe);
+
+            // New or update
+            if(req.body.status == 1) {
+                // Update
+                var id = req.body['id'];
+                recipes.updateOne({ _id: id }, { $set: objRecipe }, (err, data) => {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        res.json(data);
+                        console.log('Recipes successfully updated.'); 
+                    }  
+                });
+            } else {
+                // New
+                recipe.save(function(err, results) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log('New recipe successfully added...');
+                        console.log(results._id);
+                        res.send('id: ' + results._id);
+                    }
+                });
+            }
+
+            // if(req.body['id'] === null) {
+            //     // New
+            //     recipe.save(function(err, results) {
+            //         if(err) {
+            //             console.log(err);
+            //         } else {
+            //             console.log('New recipe successfully added...');
+            //             console.log(results._id);
+            //             res.send('id: ' + results._id);
+            //         }
+            //     });  
+            // } else {
+            //     // Update
+            //     var id = req.body['id'];
+            //     recipes.updateOne({ _id: id }, { $set: objRecipe }, (err, data) => {
+            //         if(err) {
+            //             console.log(err);
+            //         } else {
+            //             res.json(data);
+            //             console.log('Recipes successfully updated.'); 
+            //         }  
+            //     });
+            // }
         });
-
-        // app.post('/upload',(req, res) => {
-        //     const recipe = new recipes(
-        //         {
-        //             title: req.body.title,
-        //             description: req.body.description,
-        //             ingredients: req.body.ingredients,
-        //             directions: req.body.directions,
-        //             duration: req.body.duration,
-        //             servings: req.body.servings
-        //         }
-        //     );
-            
-        //     recipe.save(function (err, results) {
-        //         if(err) {
-        //             console.log(err);
-        //         } else {
-        //             console.log('New recipe successfully added...');
-        //             console.log(results._id);
-        //         }
-        //     });      
-        //     // recipe.save((err, recipes) => {
-        //     //     if(err) {
-        //     //         console.log(err);
-        //     //     } else {
-        //     //         console.log('New recipe successfully added...');
-        //     //     }
-        //     // });
-        // });
 
     // >> GET
         // > Recipes - All
         app.get('/api/recipes', (req, res) => {
             // URL: "../api/recipes"
+
             // Query
             recipes.find({}, (err, data) => {
                 if(err) {
                     console.log(err);
                 } else {
                     res.json(data);
-                    console.log('Recipes successfully found.'); 
+                    // console.log('Recipes successfully found.'); 
                 }  
             });
         });
@@ -116,9 +127,26 @@ app.use(express.json());
                     console.log(err);
                 } else {
                     res.json(data);
-                    console.log('Recipes successfully found.'); 
+                    // console.log('Recipes successfully found.'); 
                 }  
             }).sort({"title": 1});
+        });
+
+        // > Recipe - Delete
+        app.get('/api/delete', (req, res) => {
+            // URL: "../api/delete?q=<id>"
+
+            // Variable
+            var id = req.query['q'];
+            // Query
+            recipes.deleteOne({ _id: id }, (err, data) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    res.json(data);
+                    console.log('Recipes successfully delete.'); 
+                }  
+            });
         });
 
 // [LISTENER]

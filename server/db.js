@@ -21,6 +21,7 @@ let dbSchema = new mongoose.Schema({
     image: String,
     ingredients: [{
         name: String,
+        name_full: String,
         amount: {
             quantity: Number,
             unit: String

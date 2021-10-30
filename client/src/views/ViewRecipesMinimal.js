@@ -7,6 +7,7 @@ import styles from './ViewRecipesMinimal.module.scss';
 class ViewRecipeMinimal extends Component {
     render() {
         let recipe = {
+            status : 1, // Update
             id : this.props.id,
             title : this.props.title,
             description : this.props.description,
@@ -40,13 +41,13 @@ class ViewRecipeMinimal extends Component {
                 var rhrs = Math.floor(hrs);
                 var mins = (hrs - rhrs) * 60;
                 var rmins = Math.round(mins);
-                var hrs_txt = rhrs == 1 ? "hr" : "hrs";
-                var mins_txt = rmins == 1 ? "min" : "mins";
+                var hrs_txt = rhrs === 1 ? "hr" : "hrs";
+                var mins_txt = rmins === 1 ? "min" : "mins";
 
 
                 return rhrs + hrs_txt + ' ' + rmins + mins_txt;
             } else {
-                return time == 1 ? `${time}min` : `${time}mins`;
+                return time === 1 ? `${time}min` : `${time}mins`;
             }
         }
 
