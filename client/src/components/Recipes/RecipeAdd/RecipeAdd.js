@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
+import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-// import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const MySwal = withReactContent(Swal);
 
@@ -76,7 +76,7 @@ export default class RecipeAdd extends Component {
 
         // States
         this.state = {
-            src: '',    // image source
+            src : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.image,
             image : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.image,
             id : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.id,
             title : singleRecipe === null || singleRecipe === undefined ? null : singleRecipe.title,
@@ -101,6 +101,30 @@ export default class RecipeAdd extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+
+        if(e.target.name == "src") {
+            this.getData();
+        }
+    }
+
+    remImage = () => {
+        // Remove Image
+            MySwal.fire({
+                // title: 'Delete!',
+                text: 'Are you sure you want to remove the image?',
+                // icon: 'warning',
+                focusConfirm: true,
+                showDenyButton: true,
+                showCloseButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No'
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    document.getElementById('form-image').value = null; //remove selected file
+                    this.setState({src: null});   //remove state src
+                    this.setState({image: null});   //remove state image
+                }
+            });
     }
 
     // Save button hover mouse listener - adds delay on image retrieval (doesn't work if directly processed on onSubmit)
@@ -222,17 +246,6 @@ export default class RecipeAdd extends Component {
                             servings: parseInt(this.state.servings)
                         });
 
-                // // Reset fields from state
-                //     this.setState({
-                //         src: '',
-                //         title: null,
-                //         description: null,
-                //         ingredients: [],
-                //         directions: [],
-                //         duration: null,
-                //         servings: null
-                //     });
-
                 // Options
                     var opts = {
                         method: 'POST',
@@ -259,7 +272,8 @@ export default class RecipeAdd extends Component {
                     <button className={styles["btn-back"]}>
                         <Link to="/saved" className={styles["btn-text"]}><FontAwesomeIcon icon={ faArrowLeft }/> Back to recipes</Link>
                     </button>
-                    <button className={styles["btn-save"]} onClick={this.onSubmit} onMouseEnter={this.getData}>
+                    {/* <button className={styles["btn-save"]} onClick={this.onSubmit} onMouseEnter={this.getData}> */}
+                    <button className={styles["btn-save"]} onClick={this.onSubmit}>
                         {/* <FontAwesomeIcon icon={ faSave }/> */}
                         {/* SAVE */}
                         {this.state.btnText}
@@ -274,14 +288,22 @@ export default class RecipeAdd extends Component {
                                 <input name="title" value={this.state.title} onChange={this.onChange} type="text" placeholder="What will you name this recipe?" />
                             </div>
                         </div>
-                        <div className={styles["wrapper-img"]}>
-                            {/* <button id="form-image" className={styles["btn-img"]}>
+                        <div className={styles["wrapper-img"]} style={{ backgroundImage: `url(${this.state.src})` }}>
+                            {/* <input id="form-image" type="file" />
+                            <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" /> */}
+                            
+                            <input id="form-image" name="src" type="file" accept="image/*" onChange={this.onChange} />
+                            <button id="form-image" className={styles["btn-img"]} onClick={this.getData}>
                                 <FontAwesomeIcon icon={ faCameraRetro }/>
                                 Add Photo
-                            </button> */}
-                            <div className={styles["text-box"]}>
-                                <input id="form-image" name="image" type="file" accept="image/*" />
-                            </div>
+                            </button>
+                            <button className={styles["btn-rem"]} onClick={this.remImage}>
+                                <FontAwesomeIcon icon={ faTrash }/>
+                            </button>
+
+                            {/* <div className={styles["text-box"]}> */}
+                                {/* <input id="form-image" name="image" type="file" accept="image/*" /> */}
+                            {/* </div> */}
                         </div>
                         <div className={styles["wrapper-generic"]}>
                             <label>Description</label>

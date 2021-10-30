@@ -4,11 +4,10 @@ import ViewRecipe from "../../../views/ViewRecipes"
 // import ViewRecipe from "../../../views/ViewRecipesMinimal"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-// import { addListener } from 'nodemon';
 
 const Online = () => {
-    const APP_ID = "603f8b95";
-    const API_KEY = "0104a4f3be9cb20952892f37e624a49f";
+    const APP_ID = process.env.REACT_APP_APP_ID;
+    const API_KEY = process.env.REACT_APP_APP_KEY;
 
     const[recipes, setRecipes] = React.useState([]);
     const[search, setSearch] = React.useState("");

@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Variables
-const uname = "wonderBOi";
-const passwd = "a12345678b";
-const database = "wrecipe";
-const collection = "recipes";
-const opts = { useNewUrlParser: true, useUnifiedTopology: true };
-const url = `mongodb+srv://${uname}:${passwd}@wapp-sg.qbs2k.mongodb.net/${database}?retryWrites=true&w=majority`;
+// const UNAME = "wonderBOi";
+// const PASSWD = "a12345678b";
+// const DATABASE = "wrecipe";
+// const COLLECTION = "recipes";
+// const MONGODB_ATLAS_CONNECTION_STRING = `mongodb+srv://${UNAME}:${PASSWD}@wapp-sg.qbs2k.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
 
 // Initiating a connection to the database
-mongoose.connect(url, opts);
+mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Connecting to the database
 const connect = mongoose.connection;
@@ -33,7 +35,7 @@ let dbSchema = new mongoose.Schema({
 });
 
 // Collection
-const recipes = mongoose.model(collection, dbSchema);
+const recipes = mongoose.model(process.env.COLLECTION, dbSchema);
 
 // Export
 module.exports.connect = connect;

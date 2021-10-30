@@ -80,6 +80,7 @@
         margin-top: 80px;
         // display: flex;
         width: 40%;
+        max-width: 600px;
         // flex-direction: column;
         // min-width: 40%;
 
@@ -120,12 +121,12 @@
                 cursor: pointer;
                 justify-content: center;
                 text-decoration: none;
-    
+
                 &:hover {
                     color: rgb(221, 221, 221);
                     color:#000000;
                 }
-        
+
                 &:active { 
                     color: rgb(179, 179, 179);
                     color:#000000;

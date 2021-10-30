@@ -1,7 +1,12 @@
 const express = require("express");
+const dotenv = require('dotenv');
+dotenv.config();
+// require('dotenv').config();  // shortened
 const app = express();
 const bodyParser = require('body-parser');
+
 const PORT = process.env.PORT || 3001;
+
 
 // [IMPORT DATABASE]
 const { connect } = require('./db');
