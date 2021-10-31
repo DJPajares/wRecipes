@@ -210,7 +210,7 @@ export default class RecipeAdd extends Component {
                 // Data cleanup
                     // Ingredients
                         // Main
-                        if(this.state.ingredients !== undefined && this.state.ingredients !== null) {
+                        if(this.state.ingredients !== undefined && this.state.ingredients !== null && this.state.ingredients.length > 0) {
                             var ingredientsTmp = this.state.ingredients;
                         }
 
