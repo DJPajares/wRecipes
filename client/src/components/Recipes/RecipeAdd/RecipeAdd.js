@@ -15,12 +15,38 @@ export default class RecipeAdd extends Component {
     constructor(props) {
         super(props);
 
+        const fixIngredients = () => {
+            var ingredientsTxtTmp = [];
+            // singleRecipe.ingredients.forEach(function(row) {
+            //     ingredientsTxtTmp.push(
+            //         row.name_full
+            //     );
+            // });
+
+            singleRecipe.ingredients.forEach(function(row) {
+                var name_full = row.name_full;
+                var name = row.name;
+                var quantity = row.amount.quantity;
+                var unit = row.amount.unit;
+
+                ingredientsTxtTmp.push(
+                    // `[${quantity} ${unit}] ${name}`
+                    (quantity === undefined || quantity === null) ? name : `[${quantity} ${unit}] ${name}`
+                )
+            });
+
+            return {
+                ingredients: singleRecipe.ingredients,
+                ingredientsTxt: ingredientsTxtTmp.join("\n")
+            }
+        }
+
         // Pre-processing
         if(props.location.singleRecipe) { 
             var singleRecipe = JSON.parse(props.location.singleRecipe);
 
             if(singleRecipe.status === 1) {
-                // >> UPDATE
+                // *** UPDATE ***
 
                 // Buttons
                     var btnText = "UPDATE";
@@ -29,19 +55,13 @@ export default class RecipeAdd extends Component {
                         var ingredients = [];
                         var ingredientsTxt = '';
                     } else {
-                        var ingredientsTxtTmp = [];
-                        singleRecipe.ingredients.forEach(function(row) {
-                            ingredientsTxtTmp.push(
-                                row.name_full
-                            );
-                        });
-                        var ingredientsTxt = ingredientsTxtTmp.join("\n");
-                        var ingredients = singleRecipe.ingredients;
+                        var ingredients = fixIngredients().ingredients;
+                        var ingredientsTxt = fixIngredients().ingredientsTxt;
                     }
                 // Directions
                     var directions = singleRecipe.directions === null || singleRecipe.directions === undefined ? null : singleRecipe.directions.join("\n");
             } else if(singleRecipe.status === 2) {
-                // >> UPDATE - ONLINE
+                // *** NEW - ONLINE ***
 
                 // Buttons
                     var btnText = "SAVE";
@@ -50,26 +70,20 @@ export default class RecipeAdd extends Component {
                         var ingredients = [];
                         var ingredientsTxt = '';
                     } else {
-                        var ingredientsTxtTmp = [];
-                        singleRecipe.ingredients.forEach(function(row) {
-                            ingredientsTxtTmp.push(
-                                row.name_full
-                            );
-                        });
-                        var ingredientsTxt = ingredientsTxtTmp.join("\n");
-                        var ingredients = singleRecipe.ingredients;
+                        var ingredients = fixIngredients().ingredients;
+                        var ingredientsTxt = fixIngredients().ingredientsTxt;
                     }
                 // Directions
                     var directions = singleRecipe.directions === null || singleRecipe.directions === undefined ? null : singleRecipe.directions.join("\n");
             }
         } else {
-            // >> NEW
+            // *** NEW ***
 
             // Buttons
                 var btnText = "SAVE";
             // Ingredients
                 var ingredients = [];
-                var ingredientsTxt = [];
+                var ingredientsTxt = "";
             // Directions
                 var directions = [];
         }
@@ -92,7 +106,6 @@ export default class RecipeAdd extends Component {
         };
 
         this.getData = this.getData.bind(this);
-
         console.log(this.state)
     }
 
@@ -102,6 +115,7 @@ export default class RecipeAdd extends Component {
             [e.target.name]: e.target.value
         });
 
+        // Process image onChange source
         if(e.target.name == "src") {
             this.getData();
         }
@@ -195,43 +209,68 @@ export default class RecipeAdd extends Component {
             const postRecipe = () => {
                 // Data cleanup
                     // Ingredients
-                        if(this.state.ingredients === undefined || this.state.ingredients === null) {
-                        // if(this.state.ingredients.length > 0) {
-                            console.log(this.state.ingredientsTxt);
+                        // Main
+                        if(this.state.ingredients !== undefined && this.state.ingredients !== null) {
+                            var ingredientsTmp = this.state.ingredients;
+                        }
+
+                        // Text
+                        if(this.state.ingredientsTxt !== undefined && this.state.ingredientsTxt !== null && this.state.ingredientsTxt !== '') {
                             var ingredients = [];
                             var tmpIngredients = this.state.ingredientsTxt.split("\n");
     
-                            tmpIngredients.forEach(function(row) {
-                                // Separate quantity
+                            tmpIngredients.forEach(function(row, idx) {
+                                // Extract quantity, unit, and name
                                     if(row.indexOf("[") >= 0 && row.indexOf("]") >= 0) {
                                         // Bracketed (e.g. [1 cup] rice)
+
+                                        // Extract Quantity and Unit
                                         var x = row.indexOf("[") + 1;
                                         var y = row.indexOf("]");
                                         var xY = row.substring(x, y)
-                                        var quantityTmp = xY.match(/\d+/);
+                                        var quantityTmp = xY.match(/[+-]?\d+(\.\d+)?/g);
                                         var quantity = quantityTmp && quantityTmp !== null ? parseFloat(quantityTmp[0]) : 0;
-                                        var unit = xY.replace(/\d+/g, '').trim();
+                                        var unit = xY.replace(/[+-]?\d+(\.\d+)?/g, '').trim();
+                                        // Extract Name
+                                        var a = y + 1;
+                                        var b = row.len;
+                                        var name = row.substring(a, b).trim()
                                     } else {
                                         // No Brackets (e.g. 1 cup rice)
-                                        var quantityTmp = row.match(/\d+/);
-                                        var quantity = quantityTmp && quantityTmp !== null ? parseFloat(quantityTmp[0]) : 0;
+                                        var quantityTmp = row.match(/[+-]?\d+(\.\d+)?/g);
+                                        var quantity = quantityTmp && quantityTmp !== null ? parseFloat(quantityTmp[0]) : 0;;
+                                        var unit = null;
+                                        var name = row.replace(/[+-]?\d+(\.\d+)?/g, '').replace(/ +(?= )/g,'').trim();
                                     }
-    
+                                // Use Full name from original
+
+                                    // if(this.state.ingredients !== undefined && this.state.ingredients !== null) {
+
+                                    if(ingredientsTmp !== undefined) {
+                                        var name_full = ingredientsTmp[idx]['name_full'];
+                                    } else {
+                                        var name_full = row;
+                                    }
+
                                 // Push
-                                ingredients.push(
-                                    {
-                                        "name" : row,
-                                        "name_full" : row,
-                                        "amount" : {
-                                            "quantity" : quantity,
-                                            "unit" : unit
+                                    ingredients.push(
+                                        {
+                                            "name" : name,
+                                            "name_full" : name_full,
+                                            "amount" : {
+                                                "quantity" : quantity,
+                                                "unit" : unit
+                                            }
                                         }
-                                    }
-                                )
+                                    )
                             });
                         } else {
-                            var ingredients = this.state.ingredients;
+                            ingredients = [];
                         }
+
+                        // if(this.state.ingredients === undefined || this.state.ingredients === null) {
+                        // } else {
+                        //     var ingredients = this.state.ingredients;
 
                     // Final
                         let data = JSON.stringify({
@@ -289,7 +328,7 @@ export default class RecipeAdd extends Component {
                     <div className={styles["wrapper-img"]} style={{ backgroundImage: `url(${this.state.src})` }}>
                         {/* <input id="form-image" type="file" />
                         <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" /> */}
-                        
+
                         <input id="form-image" name="src" type="file" accept="image/*" onChange={this.onChange} />
                         <button id="form-image" className={styles["btn-img"]} onClick={this.getData}>
                             <FontAwesomeIcon icon={ faCameraRetro }/>
@@ -319,7 +358,7 @@ export default class RecipeAdd extends Component {
                         <label>Ingredients</label>
                         <div className={styles["text-area"]}>
                             <textarea
-                                name="ingredients"
+                                name="ingredientsTxt"
                                 value={this.state.ingredientsTxt}
                                 onChange={this.onChange}
                                 type="text"
