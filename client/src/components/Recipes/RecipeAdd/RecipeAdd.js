@@ -268,7 +268,7 @@ export default class RecipeAdd extends Component {
     render() {
         return (
             <div className={styles["wrapper-main"]}>
-                <div className={styles["wrapper-header"]}>
+                <div className={styles["wrapper-main-header"]}>
                     <button className={styles["btn-back"]}>
                         <Link to="/saved" className={styles["btn-text"]}><FontAwesomeIcon icon={ faArrowLeft }/> Back to recipes</Link>
                     </button>
@@ -279,83 +279,80 @@ export default class RecipeAdd extends Component {
                         {this.state.btnText}
                     </button>
                 </div>
-                {/* <form onSubmit={this.onSubmit}> */}
-                {/* <form> */}
-                    <div className={styles["wrapper-body"]}>
-                        <div className={styles["wrapper-generic"]}>
-                            <label>Title</label>
-                            <div className={styles["text-box"]}>
-                                <input name="title" value={this.state.title} onChange={this.onChange} type="text" placeholder="What will you name this recipe?" />
-                            </div>
-                        </div>
-                        <div className={styles["wrapper-img"]} style={{ backgroundImage: `url(${this.state.src})` }}>
-                            {/* <input id="form-image" type="file" />
-                            <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" /> */}
-                            
-                            <input id="form-image" name="src" type="file" accept="image/*" onChange={this.onChange} />
-                            <button id="form-image" className={styles["btn-img"]} onClick={this.getData}>
-                                <FontAwesomeIcon icon={ faCameraRetro }/>
-                                Add Photo
-                            </button>
-                            <button className={styles["btn-rem"]} onClick={this.remImage}>
-                                <FontAwesomeIcon icon={ faTrash }/>
-                            </button>
-
-                            {/* <div className={styles["text-box"]}> */}
-                                {/* <input id="form-image" name="image" type="file" accept="image/*" /> */}
-                            {/* </div> */}
-                        </div>
-                        <div className={styles["wrapper-generic"]}>
-                            <label>Description</label>
-                            <div className={styles["text-area"]}>
-                                <textarea
-                                    name="description"
-                                    value={this.state.description}
-                                    onChange={this.onChange}
-                                    type="text"
-                                    placeholder="Tell us about this dish"
-                                />
-                            </div>
-                        </div>
-                        <div className={styles["wrapper-generic"]}>
-                            <label>Ingredients</label>
-                            <div className={styles["text-area"]}>
-                                <textarea
-                                    name="ingredients"
-                                    value={this.state.ingredientsTxt}
-                                    onChange={this.onChange}
-                                    type="text"
-                                    placeholder="Create new line for each item and enclose quantities in a bracket
-                                    e.g. [1 cup] rice"
-                                />
-                            </div>
-                        </div>
-                        <div className={styles["wrapper-generic"]}>
-                            <label>Directions</label>
-                            <div className={styles["text-area"]}>
-                                <textarea
-                                    name="directions"
-                                    value={this.state.directions}
-                                    onChange={this.onChange}
-                                    type="text"
-                                    placeholder="Create new line for each instruction"
-                                />
-                            </div>
-                        </div>
-                        <div className={styles["wrapper-generic"]}>
-                            <label>Duration</label>
-                            <div className={styles["text-box"]}>
-                                <input name="duration" value={this.state.duration} onChange={this.onChange} type="number" placeholder="in minutes" />
-                            </div>
-                        </div>
-                        <div className={styles["wrapper-generic"]}>
-                            <label>Servings</label>
-                            <div className={styles["text-box"]}>
-                                <input name="servings" value={this.state.servings} onChange={this.onChange} type="number" placeholder="How many servings does this make?" />
-                            </div>
+                <div className={styles["wrapper-main-body"]}>
+                    <div className={styles["wrapper-generic"]}>
+                        <label>Title</label>
+                        <div className={styles["text-box"]}>
+                            <input name="title" value={this.state.title} onChange={this.onChange} type="text" placeholder="What will you name this recipe?" />
                         </div>
                     </div>
-                {/* </form> */}
+                    <div className={styles["wrapper-img"]} style={{ backgroundImage: `url(${this.state.src})` }}>
+                        {/* <input id="form-image" type="file" />
+                        <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" /> */}
+                        
+                        <input id="form-image" name="src" type="file" accept="image/*" onChange={this.onChange} />
+                        <button id="form-image" className={styles["btn-img"]} onClick={this.getData}>
+                            <FontAwesomeIcon icon={ faCameraRetro }/>
+                            Add Photo
+                        </button>
+                        <button className={styles["btn-rem"]} onClick={this.remImage}>
+                            <FontAwesomeIcon icon={ faTrash }/>
+                        </button>
+
+                        {/* <div className={styles["text-box"]}> */}
+                            {/* <input id="form-image" name="image" type="file" accept="image/*" /> */}
+                        {/* </div> */}
+                    </div>
+                    <div className={styles["wrapper-generic"]}>
+                        <label>Description</label>
+                        <div className={styles["text-area"]}>
+                            <textarea
+                                name="description"
+                                value={this.state.description}
+                                onChange={this.onChange}
+                                type="text"
+                                placeholder="Tell us about this dish"
+                            />
+                        </div>
+                    </div>
+                    <div className={styles["wrapper-generic"]}>
+                        <label>Ingredients</label>
+                        <div className={styles["text-area"]}>
+                            <textarea
+                                name="ingredients"
+                                value={this.state.ingredientsTxt}
+                                onChange={this.onChange}
+                                type="text"
+                                placeholder="Create new line for each item and enclose quantities in a bracket
+                                e.g. [1 cup] rice"
+                            />
+                        </div>
+                    </div>
+                    <div className={styles["wrapper-generic"]}>
+                        <label>Directions</label>
+                        <div className={styles["text-area"]}>
+                            <textarea
+                                name="directions"
+                                value={this.state.directions}
+                                onChange={this.onChange}
+                                type="text"
+                                placeholder="Create new line for each instruction"
+                            />
+                        </div>
+                    </div>
+                    <div className={styles["wrapper-generic"]}>
+                        <label>Duration</label>
+                        <div className={styles["text-box"]}>
+                            <input name="duration" value={this.state.duration} onChange={this.onChange} type="number" placeholder="in minutes" />
+                        </div>
+                    </div>
+                    <div className={styles["wrapper-generic"]}>
+                        <label>Servings</label>
+                        <div className={styles["text-box"]}>
+                            <input name="servings" value={this.state.servings} onChange={this.onChange} type="number" placeholder="How many servings does this make?" />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

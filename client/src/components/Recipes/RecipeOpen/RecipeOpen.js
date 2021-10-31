@@ -90,8 +90,8 @@ export default class RecipeOpen extends Component {
         }
     
         return (
-            <div className={styles["wrapper"]}>
-                <div className={styles["wrapper-main"]}>
+            <div className={styles["wrapper-main"]}>
+                <div className={styles["wrapper-main-header"]}>
                     <button className={styles["btn-back"]}>
                         <Link to="/saved" className={styles["btn-text"]}><FontAwesomeIcon icon={ faArrowLeft }/> Back to recipes</Link>
                     </button>
@@ -100,7 +100,7 @@ export default class RecipeOpen extends Component {
                         <FontAwesomeIcon icon={ faTrashAlt }/> DELETE
                     </button>
                 </div>
-                <div className={styles["wrapper-sub"]}>
+                <div className={styles["wrapper-main-body"]}>
                     <div className={styles["wrapper-header"]}>
                         <img className={styles["image"]} src={recipe.image} alt=""></img>
                         <button className={styles["btn-edit"]} onClick={this.editRecipe}>

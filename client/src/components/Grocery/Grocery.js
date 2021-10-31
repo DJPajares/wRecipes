@@ -1,10 +1,10 @@
 import React from 'react';
-// import styles from './Shopping.scss';
+// import styles from './Grocery.scss';
 
-const Shopping = () => {
+const Grocery = () => {
     return (
         <div className="title">
-            <h1>Shopping List</h1>
+            <h1>Grocery List</h1>
             <div id="content-box">
 
             </div>
@@ -12,4 +12,4 @@ const Shopping = () => {
     );
 }
 
-export default Shopping;
+export default Grocery;
