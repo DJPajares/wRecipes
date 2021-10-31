@@ -3,13 +3,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Variables
-// const UNAME = "wonderBOi";
-// const PASSWD = "a12345678b";
-// const DATABASE = "wrecipe";
-// const COLLECTION = "recipes";
-// const MONGODB_ATLAS_CONNECTION_STRING = `mongodb+srv://${UNAME}:${PASSWD}@wapp-sg.qbs2k.mongodb.net/${DATABASE}?retryWrites=true&w=majority`;
-
 // Initiating a connection to the database
 mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -35,7 +28,8 @@ let dbSchema = new mongoose.Schema({
 });
 
 // Collection
-const recipes = mongoose.model(process.env.COLLECTION, dbSchema);
+// Add the 3rd parameter to force the naming of the model and avoid "pluralization"
+const recipes = mongoose.model(process.env.COLLECTION, dbSchema, "recipes");
 
 // Export
 module.exports.connect = connect;
