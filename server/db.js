@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-const dotenv = require('dotenv');
-
-dotenv.config();
+const dotenv = require('dotenv').config();
 
 // Initiating a connection to the database
 mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });

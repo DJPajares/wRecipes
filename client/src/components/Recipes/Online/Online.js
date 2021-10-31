@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Online = () => {
-    const APP_ID = process.env.REACT_APP_APP_ID;
-    const API_KEY = process.env.REACT_APP_APP_KEY;
+    const API_ID = process.env.REACT_APP_API_ID;
+    const API_KEY = process.env.REACT_APP_API_KEY;
+    // const APP_ID = REACT_APP_APP_ID;
+    // const API_KEY = REACT_APP_APP_KEY;
 
     const[recipes, setRecipes] = React.useState([]);
     const[search, setSearch] = React.useState("");
@@ -17,7 +19,7 @@ const Online = () => {
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}`;  // ALL
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan&health=vegetarian`;  // Vegan/Vegetarian
     // const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan`;  // Vegan
-    const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${API_KEY}&health=vegan`;   // Vegan
+    const URI = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${API_ID}&app_key=${API_KEY}&health=vegan`;   // Vegan
 
     React.useEffect(() => {
         getRecipes();
