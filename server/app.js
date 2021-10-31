@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const dotenv = require('dotenv');
 dotenv.config();
@@ -7,6 +8,7 @@ const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3001;
 
+// console.log(_dirname)
 // have Node serve the files for our build React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
