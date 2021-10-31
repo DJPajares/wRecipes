@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3001;
 
+// have Node serve the files for our build React app
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // [IMPORT DATABASE]
 const { connect } = require('./db');
